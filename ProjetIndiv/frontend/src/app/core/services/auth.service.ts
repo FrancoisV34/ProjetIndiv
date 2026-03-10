@@ -12,8 +12,11 @@ export class AuthService {
   isAuthenticated = computed(() => !!this.currentUser());
 
   constructor(private http: HttpClient, private router: Router) {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      this.currentUser.set(JSON.parse(stored));
+    }
+    if (localStorage.getItem('token')) {
       this.loadUser();
     }
   }
@@ -37,6 +40,7 @@ export class AuthService {
     }
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }
@@ -60,16 +64,19 @@ export class AuthService {
   private setSession(res: AuthResponse) {
     localStorage.setItem('token', res.token);
     localStorage.setItem('refreshToken', res.refreshToken);
+    localStorage.setItem('user', JSON.stringify(res.user));
     this.currentUser.set(res.user);
   }
 
   private loadUser() {
     this.http.get<User>('/api/users/me').subscribe({
-      next: user => this.currentUser.set(user),
+      next: user => {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.currentUser.set(user);
+      },
       error: () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        this.currentUser.set(null);
+        // Ne pas effacer currentUser ici : la valeur restaurée depuis localStorage reste valide.
+        // Si le token est expiré, l'interceptor gère le refresh puis appelle logout() si nécessaire.
       },
     });
   }
