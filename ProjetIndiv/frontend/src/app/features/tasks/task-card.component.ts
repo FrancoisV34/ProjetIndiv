@@ -9,7 +9,15 @@ import { Task, TaskStatus, TaskPriority } from '../../core/models/task.model';
   selector: 'app-task-card',
   imports: [MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
   template: `
-    <mat-card class="task-card" [class.done]="task().status === 'done'">
+    <mat-card
+      class="task-card"
+      [class.todo]="task().status === 'todo'"
+      [class.in-progress]="task().status === 'in_progress'"
+      [class.done]="task().status === 'done'"
+      [class.priority-low]="task().priority === 'low'"
+      [class.priority-medium]="task().priority === 'medium'"
+      [class.priority-high]="task().priority === 'high'"
+    >
       <div class="task-info">
         <div class="task-top">
           <h3 class="task-title">{{ task().title }}</h3>
@@ -21,7 +29,10 @@ import { Task, TaskStatus, TaskPriority } from '../../core/models/task.model';
               {{ priorityLabel(task().priority) }}
             </mat-chip>
             @if (task().category) {
-              <mat-chip [style.background]="task().category!.color + '33'" [style.color]="task().category!.color">
+              <mat-chip
+                [style.background]="task().category!.color + '33'"
+                [style.color]="task().category!.color"
+              >
                 {{ task().category!.name }}
               </mat-chip>
             }
@@ -57,9 +68,19 @@ import { Task, TaskStatus, TaskPriority } from '../../core/models/task.model';
         margin-bottom: 12px;
         transition: all var(--transition-base);
       }
+      .task-card.todo {
+        border-left: 4px solid #3b82f6;
+      }
+      .task-card.in-progress {
+        border-left: 4px solid #f59e0b;
+      }
       .task-card.done {
-        opacity: 0.6;
         border-left: 4px solid var(--color-success);
+        opacity: 0.6;
+      }
+      .task-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.08);
       }
       .task-info {
         flex: 1;
@@ -100,12 +121,30 @@ import { Task, TaskStatus, TaskPriority } from '../../core/models/task.model';
         display: flex;
         align-items: center;
       }
-      mat-chip.status-todo { background: var(--status-todo-bg); color: var(--status-todo-text); }
-      mat-chip.status-in_progress { background: var(--status-wip-bg); color: var(--status-wip-text); }
-      mat-chip.status-done { background: var(--status-done-bg); color: var(--status-done-text); }
-      mat-chip.priority-low { background: var(--priority-low-bg); color: var(--priority-low-text); }
-      mat-chip.priority-medium { background: var(--priority-med-bg); color: var(--priority-med-text); }
-      mat-chip.priority-high { background: var(--priority-high-bg); color: var(--priority-high-text); }
+      mat-chip.status-todo {
+        background: var(--status-todo-bg);
+        color: var(--status-todo-text);
+      }
+      mat-chip.status-in_progress {
+        background: var(--status-wip-bg);
+        color: var(--status-wip-text);
+      }
+      mat-chip.status-done {
+        background: var(--status-done-bg);
+        color: var(--status-done-text);
+      }
+      mat-chip.priority-low {
+        background: var(--priority-low-bg);
+        color: var(--priority-low-text);
+      }
+      mat-chip.priority-medium {
+        background: var(--priority-med-bg);
+        color: var(--priority-med-text);
+      }
+      mat-chip.priority-high {
+        background: var(--priority-high-bg);
+        color: var(--priority-high-text);
+      }
     `,
   ],
 })
