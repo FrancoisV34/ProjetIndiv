@@ -1,0 +1,116 @@
+/* ============================================
+   KANBAN — Design Tokens
+   ============================================ */
+
+:root {
+
+  /* ——— Dominante : Bleu ——— */
+  --blue-50:  #f0f6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #7fb2f0;
+  --blue-400: #4a90e2;
+  --blue-500: #2563eb;
+  --blue-600: #1d4ed8;
+  --blue-700: #1e3a8a;
+
+  /* ——— Blanc / Gris (backgrounds) ——— */
+  --white:    #ffffff;
+  --gray-50:  #fafbfc;
+  --gray-100: #f3f4f6;
+  --gray-150: #ebedf0;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* ——— Texte ——— */
+  --text-primary:   var(--gray-900);
+  --text-secondary: var(--gray-500);
+  --text-muted:     var(--gray-400);
+  --text-inverse:   var(--white);
+
+  /* ——— Backgrounds ——— */
+  --bg-page:       var(--gray-50);
+  --bg-card:       var(--white);
+  --bg-card-hover: var(--gray-100);
+  --bg-sidebar:    var(--white);
+  --bg-column:     var(--gray-100);
+  --bg-input:      var(--white);
+  --bg-overlay:    rgba(17, 24, 39, 0.4);
+
+  /* ——— Bordures ——— */
+  --border-light:   var(--gray-200);
+  --border-default: var(--gray-300);
+
+  /* ——— Ombres ——— */
+  --shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md:  0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-lg:  0 4px 12px rgba(0, 0, 0, 0.10);
+
+  /* ——— Rayons ——— */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-full: 9999px;
+
+
+  /* ============================================
+     STATUS — Badges
+     fond très clair + texte foncé
+     ============================================ */
+
+  /* À faire — Bleu */
+  --status-todo-bg:   #dbeafe;
+  --status-todo-text: #1e3a8a;
+
+  /* En cours — Jaune */
+  --status-wip-bg:    #fef3c7;
+  --status-wip-text:  #92400e;
+
+  /* Terminé — Vert */
+  --status-done-bg:   #d1fae5;
+  --status-done-text: #065f46;
+
+
+  /* ============================================
+     PRIORITÉ — Badges
+     fond très clair + texte foncé
+     ============================================ */
+
+  /* Haute — Rouge vif */
+  --priority-high-bg:   #fee2e2;
+  --priority-high-text: #991b1b;
+
+  /* Moyenne — Jaune-orangé */
+  --priority-med-bg:    #ffedd5;
+  --priority-med-text:  #9a3412;
+
+  /* Faible — Bleu-vert */
+  --priority-low-bg:    #ccfbf1;
+  --priority-low-text:  #115e59;
+
+
+  /* ============================================
+     ACCENTS UTILITAIRES
+     ============================================ */
+  --accent-primary:       var(--blue-500);
+  --accent-primary-hover: var(--blue-600);
+  --accent-primary-light: var(--blue-100);
+
+  --color-danger:  #ef4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+
+  /* ——— Focus ring ——— */
+  --ring-color: var(--blue-300);
+  --ring:       0 0 0 3px var(--ring-color);
+
+  /* ——— Transitions ——— */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+}
