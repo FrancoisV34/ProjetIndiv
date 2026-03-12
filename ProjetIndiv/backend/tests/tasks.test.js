@@ -97,6 +97,27 @@ describe('GET /api/tasks', () => {
       .set('Authorization', 'Bearer invalid.token.here');
     expect(res.status).toBe(401);
   });
+
+  it('filtre par status=done', async () => {
+    const res = await request(app)
+      .get('/api/tasks?status=done')
+      .set('Authorization', `Bearer ${makeToken()}`);
+    expect(res.status).toBe(200);
+  });
+
+  it('filtre par search=keyword', async () => {
+    const res = await request(app)
+      .get('/api/tasks?search=keyword')
+      .set('Authorization', `Bearer ${makeToken()}`);
+    expect(res.status).toBe(200);
+  });
+
+  it('filtre par category_id=1', async () => {
+    const res = await request(app)
+      .get('/api/tasks?category_id=1')
+      .set('Authorization', `Bearer ${makeToken()}`);
+    expect(res.status).toBe(200);
+  });
 });
 
 describe('POST /api/tasks', () => {
@@ -134,6 +155,16 @@ describe('POST /api/tasks', () => {
       .send({ title: 'Test' });
     expect(res.status).toBe(401);
   });
+
+  it('400 — category_id invalide', async () => {
+    const res = await request(app)
+      .post('/api/tasks')
+      .set('Authorization', `Bearer ${makeToken()}`)
+      .send({ title: 'Test task', category_id: 99 });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/Categorie/i);
+  });
 });
 
 describe('PUT /api/tasks/:id', () => {
@@ -167,6 +198,23 @@ describe('PUT /api/tasks/:id', () => {
       .send({ title: 'X' });
 
     expect(res.status).toBe(404);
+  });
+
+  it('400 — category_id invalide', async () => {
+    const { Task } = require('../src/models/index');
+    const fakeTask = {
+      id: 1, title: 'Task', status: 'todo', user_id: 1,
+      save: jest.fn(),
+    };
+    Task.findOne.mockResolvedValueOnce(fakeTask);
+
+    const res = await request(app)
+      .put('/api/tasks/1')
+      .set('Authorization', `Bearer ${makeToken()}`)
+      .send({ category_id: 99 });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/Categorie/i);
   });
 });
 

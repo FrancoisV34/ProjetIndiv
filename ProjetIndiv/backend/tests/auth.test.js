@@ -189,6 +189,50 @@ describe('POST /api/auth/refresh', () => {
     const res = await request(app).post('/api/auth/refresh').send({});
     expect(res.status).toBe(401);
   });
+
+  it('401 — token signé avec mauvais secret', async () => {
+    const jwt = require('jsonwebtoken');
+    const badToken = jwt.sign({ userId: 1 }, 'wrong_secret', { expiresIn: '7d' });
+
+    const res = await request(app)
+      .post('/api/auth/refresh')
+      .send({ refreshToken: badToken });
+
+    expect(res.status).toBe(401);
+    expect(res.body.error).toMatch(/invalide ou expire/i);
+  });
+
+  it('401 — token valide mais utilisateur introuvable', async () => {
+    const jwt = require('jsonwebtoken');
+    const { User } = require('../src/models/index');
+    const validToken = jwt.sign({ userId: 999 }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+
+    User.findByPk.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .post('/api/auth/refresh')
+      .send({ refreshToken: validToken });
+
+    expect(res.status).toBe(401);
+  });
+
+  it('401 — token valide mais refresh_token en base différent', async () => {
+    const jwt = require('jsonwebtoken');
+    const { User } = require('../src/models/index');
+    const validToken = jwt.sign({ userId: 1 }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+
+    User.findByPk.mockResolvedValueOnce({
+      id: 1,
+      refresh_token: 'different_stored_token',
+    });
+
+    const res = await request(app)
+      .post('/api/auth/refresh')
+      .send({ refreshToken: validToken });
+
+    expect(res.status).toBe(401);
+    expect(res.body.error).toMatch(/invalide/i);
+  });
 });
 
 describe('POST /api/auth/logout', () => {

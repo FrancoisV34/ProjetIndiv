@@ -5,3 +5,4 @@ dist/
 *.log
 mongo-data/
 .DS_Store
+backend/coverage/
