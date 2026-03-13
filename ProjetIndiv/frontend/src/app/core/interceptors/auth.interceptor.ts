@@ -3,13 +3,21 @@ import { inject } from '@angular/core';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
+const API_BASE_URL = (typeof window !== 'undefined' && window.location.hostname !== 'localhost')
+  ? 'https://projetindiv-production.up.railway.app'
+  : '';
+
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
 
+  const apiReq = req.url.startsWith('/api') || req.url.startsWith('/uploads')
+    ? req.clone({ url: `${API_BASE_URL}${req.url}` })
+    : req;
+
   const token = auth.getToken();
   const authReq = token
-    ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
-    : req;
+    ? apiReq.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
+    : apiReq;
 
   return next(authReq).pipe(
     catchError((err: HttpErrorResponse) => {
