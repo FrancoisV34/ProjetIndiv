@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.angular/
+.env
+*.log
+mongo-data/
+.DS_Store
+backend/coverage/
