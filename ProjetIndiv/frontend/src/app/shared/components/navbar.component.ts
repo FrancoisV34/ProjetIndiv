@@ -15,7 +15,7 @@ import { AuthService } from '../../core/services/auth.service';
       @if (auth.isAuthenticated()) {
         <a class="user-section" [routerLink]="'/profile'">
           @if (auth.user()?.avatar_url) {
-            <img class="avatar" [src]="auth.user()!.avatar_url!" [alt]="auth.user()!.username" />
+            <img class="avatar" [src]="avatarUrl(auth.user()!.avatar_url)" [alt]="auth.user()!.username" />
           } @else {
             <div class="avatar-placeholder">{{ auth.user()?.username?.charAt(0)?.toUpperCase() }}</div>
           }
@@ -87,6 +87,14 @@ import { AuthService } from '../../core/services/auth.service';
     `,
   ],
 })
+const API_BASE = (typeof window !== 'undefined' && window.location.hostname !== 'localhost')
+  ? 'https://projetindiv-production.up.railway.app' : '';
+
 export class NavbarComponent {
   constructor(public auth: AuthService) {}
+
+  avatarUrl(url: string | null | undefined): string {
+    if (!url) return '';
+    return url.startsWith('/uploads') ? `${API_BASE}${url}` : url;
+  }
 }

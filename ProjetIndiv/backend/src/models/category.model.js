@@ -18,7 +18,7 @@ const Category = sequelize.define(
       allowNull: true,
       defaultValue: '#6366f1',
       validate: {
-        is: /^#[0-9A-Fa-f]{6}$/,
+        is: /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/,
       },
     },
     user_id: {

@@ -56,7 +56,7 @@ import { UserService } from '../../core/services/user.service';
         <mat-card-content>
           <div class="avatar-section">
             @if (avatarPreview() || auth.user()?.avatar_url) {
-              <img class="avatar-preview" [src]="avatarPreview() || auth.user()!.avatar_url!" alt="Avatar" />
+              <img class="avatar-preview" [src]="avatarPreview() || avatarUrl(auth.user()!.avatar_url)" alt="Avatar" />
             } @else {
               <div class="avatar-placeholder-large">{{ auth.user()?.username?.charAt(0)?.toUpperCase() }}</div>
             }
@@ -163,6 +163,9 @@ import { UserService } from '../../core/services/user.service';
     }
   `],
 })
+const API_BASE = (typeof window !== 'undefined' && window.location.hostname !== 'localhost')
+  ? 'https://projetindiv-production.up.railway.app' : '';
+
 export class ProfileComponent {
   username = '';
   email = '';
@@ -175,6 +178,11 @@ export class ProfileComponent {
   changingPassword = signal(false);
   selectedFile = signal<File | null>(null);
   avatarPreview = signal<string | null>(null);
+
+  avatarUrl(url: string | null | undefined): string {
+    if (!url) return '';
+    return url.startsWith('/uploads') ? `${API_BASE}${url}` : url;
+  }
 
   constructor(public auth: AuthService, private userService: UserService, private snackBar: MatSnackBar) {
     this.username = auth.user()?.username ?? '';
