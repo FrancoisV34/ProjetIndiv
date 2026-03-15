@@ -13,7 +13,7 @@ const errorHandler = require('./middleware/error.middleware');
 const app = express();
 
 // Security & logging
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(morgan('dev'));
 
 // CORS
