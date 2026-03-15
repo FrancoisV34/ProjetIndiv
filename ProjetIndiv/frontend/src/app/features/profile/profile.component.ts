@@ -9,6 +9,9 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 
+const API_BASE = (typeof window !== 'undefined' && window.location.hostname !== 'localhost')
+  ? 'https://projetindiv-production.up.railway.app' : '';
+
 @Component({
   selector: 'app-profile',
   imports: [
@@ -163,9 +166,6 @@ import { UserService } from '../../core/services/user.service';
     }
   `],
 })
-const API_BASE = (typeof window !== 'undefined' && window.location.hostname !== 'localhost')
-  ? 'https://projetindiv-production.up.railway.app' : '';
-
 export class ProfileComponent {
   username = '';
   email = '';
