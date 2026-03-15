@@ -4,6 +4,13 @@
 
 TaskFlow est une application web full-stack de gestion de tâches avec authentification JWT, filtrage avancé, statistiques de tableau de bord et documentation Swagger. Développé en **Node.js/Express + Angular 21 + MySQL**.
 
+## Liens de production
+
+| | URL |
+|---|---|
+| Application | https://projet-taskflow.up.railway.app/ |
+| API (Swagger) | https://projetindiv-production.up.railway.app/api-docs/ |
+
 ---
 
 ## Stack technique
@@ -20,7 +27,7 @@ TaskFlow est une application web full-stack de gestion de tâches avec authentif
 | Frontend | Angular 21 + Angular Material + Lucide Icons |
 | Tests | Jest + Supertest (couverture ≥ 92%) |
 | Conteneurisation | Docker Compose (MySQL local) |
-| Déploiement | Railway |
+| Déploiement | Railway (backend + frontend + MySQL) |
 
 ---
 
