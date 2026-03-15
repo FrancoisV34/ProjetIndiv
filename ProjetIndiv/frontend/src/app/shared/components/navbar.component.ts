@@ -5,6 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
 
+const API_BASE = (typeof window !== 'undefined' && window.location.hostname !== 'localhost')
+  ? 'https://projetindiv-production.up.railway.app' : '';
+
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink, MatToolbarModule, MatButtonModule, MatIconModule],
@@ -87,9 +90,6 @@ import { AuthService } from '../../core/services/auth.service';
     `,
   ],
 })
-const API_BASE = (typeof window !== 'undefined' && window.location.hostname !== 'localhost')
-  ? 'https://projetindiv-production.up.railway.app' : '';
-
 export class NavbarComponent {
   constructor(public auth: AuthService) {}
 
